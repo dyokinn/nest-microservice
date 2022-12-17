@@ -1,0 +1,26 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Notification {
+    id String @id
+    // chave estrangeira duplicada por conta da estrategia de duplicidade de microsservicos (independencia)
+    // front conhece o id do usuario advindo do microsservico de autenticacao
+    // front chama microsservico de notificacoes passando esse id
+    authUserId String
+    content String
+    category String
+    createdAt DateTime @default(now())
+    readAt DateTime?
+
+    // indice para acelerar as buscas ja que nao tem FK pra join
+    @@index([authUserId])
+}

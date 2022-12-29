@@ -1,16 +1,18 @@
+import { Injectable } from '@nestjs/common';
 import { Notification } from '../../entities/notification/notification'
-import { NotificationsRepository } from '../../repositories/notifications-repository';
+import { NotificationsRepository } from '../../repositories/notifications/notifications-repository'
 
+@Injectable()
 export class SendNotification {
     
-    constructor(private notificationsRepository: NotificationsRepository){}
+    constructor(private notificationsRepository: NotificationsRepository) {}
 
-    async execute(authUserId: string, notification: Notification, repository: NotificationsRepository): Promise<Boolean> {
-        const sendNotification = new SendNotification(repository)
+
+    async execute(notification: Notification): Promise<Notification> {
         
-        // persistencia no banco
+        // chama o repositorio
         await this.notificationsRepository.create(notification)
 
-        return true
+        return notification
     }
 }

@@ -1,5 +1,8 @@
+import { randomUUID } from 'crypto';
 /* eslint-disable prettier/prettier */
 export interface NotificationProps {
+    id: string
+    authUserId: string
     content: string
     category: string
     createdAt: Date 

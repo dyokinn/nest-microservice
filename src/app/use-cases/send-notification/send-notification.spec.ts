@@ -1,11 +1,6 @@
+import { InMemoryNotificationsRepository } from '../../repositories/notifications/in-memory-notifications-repository'
 import { Notification, NotificationProps } from "../../entities/notification/notification";
 import { SendNotification } from "./send-notification";
-
-const localNotificationsRepository = {
-    async create(notification: Notification) {
-        console.log("bau")
-    }
-}
 
 test('it should be able to send a notification', async () => {
     const notifProps = {
@@ -15,9 +10,10 @@ test('it should be able to send a notification', async () => {
     } as NotificationProps;
   
     const notification = new Notification(notifProps)
-    const sendNotification = new SendNotification(localNotificationsRepository)
 
-    const result = await sendNotification.execute("teste", notification, localNotificationsRepository)
+    const notificationsRepository = new InMemoryNotificationsRepository()
+    const sendNotification = new SendNotification(notificationsRepository)
 
-    expect(result).toBeTruthy();
+    const receivedNotification = await sendNotification.execute("teste", notification)
+    expect(notificationsRepository.notifications).toHaveLength(1);
   });

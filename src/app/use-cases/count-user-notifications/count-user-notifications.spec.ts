@@ -1,6 +1,6 @@
 import { InMemoryNotificationsRepository } from '../../repositories/notifications/in-memory-notifications-repository'
 import { Notification, NotificationProps } from "../../entities/notification/notification";
-import { SendNotification } from "./send-notification";
+import { CountUserNotifications } from "./count-user-notifications";
 
 test('it should be able to send a notification', async () => {
     const notifProps = {
@@ -12,7 +12,7 @@ test('it should be able to send a notification', async () => {
     const notification = new Notification(notifProps)
 
     const notificationsRepository = new InMemoryNotificationsRepository()
-    const sendNotification = new SendNotification(notificationsRepository)
+    const sendNotification = new CountUserNotifications(notificationsRepository)
 
     const receivedNotification = await sendNotification.execute(notification)
     expect(notificationsRepository.notifications).toHaveLength(1);

@@ -10,12 +10,21 @@ export interface NotificationProps {
 }
 
 export class Notification {
-    private props: NotificationProps
-
+    id: string
+    authUserId: string
+    content: string
+    category: string
+    createdAt: Date 
+    readAt?: Date | null
     // constructor com os props de criacao inicial
     public constructor(props: NotificationProps) {
         this.validate(props)
-        this.props = props
+        this.id = props.id
+        this.authUserId = props.authUserId
+        this.category = props.category
+        this.content = props.content
+        this.createdAt = props.createdAt
+        this.readAt = (props.readAt || null)
     }
 
     // validate com as restricoes de criacao
